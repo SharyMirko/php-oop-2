@@ -8,7 +8,14 @@ class User {
     public function __construct($name, $email, $pay){
         $this->userName = $name;
         $this->userEmail = $email;
-        $this->userCreditCard = $pay;
+        $expires = DateTime::createFromFormat($pay[1]);
+        $now = new DateTime();
+        if ($expires > $now) {
+            $this->userCreditCard = $pay;
+            var_dump($expires);
+        } else {
+            $this->userCreditCard = ['è', 'scaduta'];
+        }
         return $this;
     }
 };
@@ -22,6 +29,7 @@ class Registred extends User {
     }
 }
 
-$obj = new Registred('mirko', 'shary@mirko.it', [3243432432, '02/28']);
+$obj = new Registred('mirko', 'shary@mirko.it', [3243432432, '02/2009']);
 $obj->setPassword('password34');
 var_dump($obj);
+
